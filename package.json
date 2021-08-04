@@ -4,7 +4,8 @@
   "description": "AI Murder Mystery",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js"
   },
   "author": "Theo U, Calvin M, Jareb, Sophia Z, Veda",
   "license": "ISC",
