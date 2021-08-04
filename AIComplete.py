@@ -5,7 +5,7 @@ import sys
 # Load your API key from an environment variable or secret management service
 openai.api_key = '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'
 
-
+print("resp")
 #promptxt = sys.argv[1]
 promptxt = "Hello, my name is"
 
