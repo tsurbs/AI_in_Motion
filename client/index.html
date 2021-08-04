@@ -101,7 +101,7 @@
 
 		function submit() {
 			user_in = userIn.value
-			responses[chrOn] += ("\n Detective: " + user_in+"\n"+names[chrOn])
+			responses[chrOn] += ("Detective: " + user_in+"\n"+names[chrOn])
 
 			socket.emit("user_in", [responses[chrOn], names[chrOn]])
 			chg(chrOn)
