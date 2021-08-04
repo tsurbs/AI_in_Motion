@@ -1,0 +1,14 @@
+{
+  "name": "artificialdeceit",
+  "version": "1.0.0",
+  "description": "AI Murder Mystery",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Theo U, Calvin M, Jareb, Sophia Z, Veda",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}

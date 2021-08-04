@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en-US" class="js" pwa-launched="true" pwa-extension-id="npnbdojkgkbcdfdjlfdmplppdphlhhcf"
+	pwa-extension-url-root="chrome-extension://npnbdojkgkbcdfdjlfdmplppdphlhhcf/">
+
+<head>
+	<meta charset="UTF-8">
+	<title>LM2020FC</title>
+	<script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+		integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+		integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+		crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+		integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+		crossorigin="anonymous"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link href="https://fonts.googleapis.com/css?family=Pacifico&display=swap" rel="stylesheet">
+
+</head>
+
+<body id="body">
+	<button class="chgChr" onclick="chg(0)">Talk to Roy</button>
+	<button class="chgChr" onclick="chg(1)">Talk to LT</button>
+	<button class="chgChr" onclick="chg(2)">Talk to Jonathan</button>
+	<button class="chgChr" onclick="chg('guess')">Guess</button>
+	<div class="break"></div>
+
+	<input id="userIn" type="text" placeholder="Type Here"></input>
+	<button id="sub" onclick="submit()">Submit</button>
+	<div class="break"></div>
+	<textarea id="resp"></textarea>
+
+	<style>
+		body {
+			margin: 0;
+			display: flex;
+			flex-wrap: wrap;
+		}
+
+		.chgChr{
+			position: relative;
+			flex-grow:2
+		}
+
+		#userIn {
+			position: relative;
+			flex-grow: 3;
+		}
+
+		#sub {
+			position: relative;
+			flex-grow: 1;
+		}
+
+		.break {
+			flex-basis: 100%;
+			height: 0;
+		}
+
+		#resp {
+			flex-grow: 5
+		}
+	</style>
+
+	<script>
+		socket = io();
+
+		responses = [
+			"This is a conversation with a murder suspect named Roy on a train to the moon. Roy did not commit the murder of victoria, but he did know her.  He recently had a falling out with her as she started working for big pharma, turning down his offer of joining his business of selling insulin for cheap. Roy would never murder her though. Roy is a guard on the train, but he left his post on the night of the murder to get his insulin supply. \n Detective: Hello.  I am investigating the murder of Victoria Timbers, as you already know.  Please state your name. \n Roy: My name is Roy. ",
+			"This is a conversation with a murder suspect named LT, AKA Luke Jones. LT will hide the fact that he committed the murder of the warden victoria unless presented with contradicting evidence.  His alibi is that he was unconscious from drinking too much tea. The detective and him are currently on a prison ship going to the moon because he hacked into the pentagon. He did it because he needed to show everyone the truth that we live in a simulation. \n Detective: Hello.  I am investigating the murder of Victoria Timbers, as you already know.  Please state your name. \n LT: My name is Luke Jones, or LT, but this is actually just the matrix, so who cares. \n Detective: Did you kill Victoria Timbers? \n LT: No.  I was unconscious at the time, having had too much tea.",
+			"This is a conversation between a detective and an insane murder suspect named Jonathan. Jonathan did not murder the warden victoria. His alibi for victoria’s murder is that Roy, his guard, was watching him. Although he didn’t kill Victoria, he did kill his coworker Johnny. He killed Johnny because Johnny didn't understand him. Because he was convicted of johnny’s murder, he is now on a train to the moon.  This train is where the murder of victoria was committed. \n Detective: Hello.  I am investigating the murder of Victoria Timbers, as you already know.  Please state your name. \n Jonathan: My name is Jonathan. Can I help you investigate?... I'm quite good! \n Detective: Did you kill Victoria Timbers? \n Jonathan: No. You can check with roy, my guard.  He was watching me."
+		]
+		names = ["Roy: ", "LT: ", "Jonathan: "]
+		cutoffs = [437,450,466]
+
+		resp.rows = "20"
+		resp.readOnly = true;
+
+		sub.onkeypress = function (e) {
+			if (!e) e = window.event;
+			var keyCode = e.code || e.key;
+			if (keyCode == 'Enter') {
+				submit()
+				return false;
+			}
+		}
+
+		function chg(e){
+			if(typeof(e)=="number"){
+				chrOn = e;
+				resp.innerHTML = responses[e].substring(cutoffs[chrOn]);
+			}else{
+				if(confirm("You only get one guess.\nIf you press cancel, you can go back.")){
+					if(prompt("Who do you think it is?\nPlease type the name as they are labeled(caps matter).")=="LT"){alert("Good job, you did it!")}
+					else{alert("Sorry! Hope you had fun!");location.reload()}
+				}
+			}
+		}
+
+		function submit() {
+			user_in = userIn.value
+			responses[chrOn] += ("\n Detective: " + user_in+"\n"+names[chrOn])
+
+			socket.emit("user_in", [responses[chrOn], names[chrOn]])
+			chg(chrOn)
+		}
+
+		socket.on("AI_resp", e => { responses[chrOn] += (e);chg(chrOn) })
+	</script>
+</body>
+
+</html>
