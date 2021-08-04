@@ -24,7 +24,7 @@ if len(promptxt) > 2000:
 response = openai.Completion.create(
     engine="davinci",
     prompt=promptxt,
-    temperature=0.8,
+    temperature=0.6,
     max_tokens=150,
     top_p=1,
     frequency_penalty=0,
