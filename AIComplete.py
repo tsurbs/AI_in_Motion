@@ -6,7 +6,9 @@ import sys
 openai.api_key = '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'
 
 
-promptxt = sys.argv[1]
+#promptxt = sys.argv[1]
+promptxt = "Hello, my name is"
+
 ogpmptxtlen = len(promptxt)
 #print("\n Detective: Hello.  I am investigating the murder of Victoria Timbers, as you already know.  Please state your name. \n Jonathan: My name is Jonathan. Can I help you investigate?... I'm quite good! \n Detective: Did you kill Victoria Timbers? \n Jonathan: No. You can check with roy, my guard.  He was watching me.")
 
