@@ -49,7 +49,7 @@ io.sockets.on('connection', function(socket){
 			if(dataToSend !== ""){
 				console.log("data0"+dataToSend)
 				socket.emit("AI_resp", dataToSend)
-			}
+			}else{socket.emit("AI_resp", "*Leaves the room*")}
 		});
 		// in close event we are sure that stream from child process is closed
 		/*python.on('close', (code) => {
